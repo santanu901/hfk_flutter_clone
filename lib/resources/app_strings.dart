@@ -16,13 +16,20 @@ class AppStrings {
   static const String labelNotHaveAccount = "Don't have an account yet?";
   static const String labelCreateAccount = "Create Account";
 
+  ///Register Screen Msg
+  static const String labelRegister = "Register";
+  static const String labelRegisterUserType = "User Type";
+  static const String labelRegisterTypeBuyer = "Buyer";
+  static const String labelRegisterTypeSeller = "Seller";
+  static const String labelFullName = "Full Name";
+
   ///Hint Msg
   static const String hintEnterMobileNo = "Enter Mobile Number";
+  static const String hintEnterFullName = "Enter Full Name";
+  static const String hintUSDCode = "USD Code";
 
   ///Validation Msg
-  static const String validationFirstNameEmptyMsg = "Enter First Name";
-  static const String validationLastNameEmptyMsg = "Enter Last Name";
-  static const String validationEmailEmptyMsg = "Enter Email";
+  static const String validationFullNameEmptyMsg = "Enter Full Name";
   static const String validationMobileEmptyMsg = "Enter Mobile No.";
   static const String validationPasswordEmptyMsg = "Enter Password";
   static const String validationConfirmPasswordEmptyMsg = "Enter Confirm Password";

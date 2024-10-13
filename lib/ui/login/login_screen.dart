@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController inputMobileController;
 
-  var selectedLoginType = LoginType.None;
+  var selectedLoginType = UserType.None;
   var inputMobile = "";
 
   @override
@@ -168,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: Text(
         AppStrings.labelLoginType,
-        style: ThemeText.font21Regular,
+        style: ThemeText.font19Regular,
       ),
     );
   }
@@ -181,12 +182,12 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         children: [
           Radio(
-              value: LoginType.Buyer,
+              value: UserType.Buyer,
               groupValue: selectedLoginType,
               activeColor: AppColors.americanGreen,
               onChanged: (value) {
                 setState(() {
-                  selectedLoginType = LoginType.Buyer;
+                  selectedLoginType = UserType.Buyer;
                 });
               }),
           const Text(
@@ -195,12 +196,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           _buildItemSpacingHorizontal(AppDimens.size_8),
           Radio(
-              value: LoginType.Seller,
+              value: UserType.Seller,
               groupValue: selectedLoginType,
               activeColor: AppColors.americanGreen,
               onChanged: (value) {
                 setState(() {
-                  selectedLoginType = LoginType.Seller;
+                  selectedLoginType = UserType.Seller;
                 });
               }),
           const Text(
@@ -310,6 +311,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return true;
   }
 
+  ///Navigation Handler
+  void navigateToRegister() {
+    Navigator.of(context).pushNamed(AppRoutes.register);
+  }
+
   ///Click Handler
   void loginClickHandler() {
     CommonUtils.hideSoftKeyboard();
@@ -318,5 +324,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void createAccountClickHandler() {
     CommonUtils.hideSoftKeyboard();
+    navigateToRegister();
   }
 }

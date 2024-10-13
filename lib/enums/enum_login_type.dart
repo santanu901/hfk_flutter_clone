@@ -1,4 +1,4 @@
-enum LoginType {
+enum UserType {
   Buyer,
   Seller,
   None
