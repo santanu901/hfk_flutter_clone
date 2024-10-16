@@ -316,10 +316,16 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.of(context).pushNamed(AppRoutes.register);
   }
 
+  void navigateToVerifyOTP() {
+    Navigator.of(context).pushNamed(AppRoutes.verifyOtp);
+  }
+
   ///Click Handler
   void loginClickHandler() {
     CommonUtils.hideSoftKeyboard();
-    if (validateLoginData()) {}
+    if (validateLoginData()) {
+      navigateToVerifyOTP();
+    }
   }
 
   void createAccountClickHandler() {

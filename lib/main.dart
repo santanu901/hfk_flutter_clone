@@ -5,6 +5,7 @@ import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/ui/login/login_screen.dart';
 import 'package:hfk_flutter_clone/ui/register/register_screen.dart';
 import 'package:hfk_flutter_clone/ui/splash/splash_screen.dart';
+import 'package:hfk_flutter_clone/ui/verify_otp/verify_otp_screen.dart';
 
 void main() {
   runApp(const HFKApp());
@@ -33,6 +34,7 @@ class HFKApp extends StatelessWidget {
         AppRoutes.splash: (context) => const SplashScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.register: (context) => const RegisterScreen(),
+        AppRoutes.verifyOtp: (context) => const VerifyOtpScreen(),
       },
     );
   }

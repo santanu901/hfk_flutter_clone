@@ -23,6 +23,13 @@ class AppStrings {
   static const String labelRegisterTypeSeller = "Seller";
   static const String labelFullName = "Full Name";
 
+  ///Verify Otp Screen Msg
+  static const String labelVerification = "Verification";
+  static const String labelEnterOtpCode = "Enter your otp code";
+  static const String labelVerify = "Verify";
+  static const String labelNotReceiveCodeLabel = "Didn't Receive the code?";
+  static const String labelResend = "Resend";
+
   ///Hint Msg
   static const String hintEnterMobileNo = "Enter Mobile Number";
   static const String hintEnterFullName = "Enter Full Name";
