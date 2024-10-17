@@ -29,6 +29,7 @@ class AppStrings {
   static const String labelVerify = "Verify";
   static const String labelNotReceiveCodeLabel = "Didn't Receive the code?";
   static const String labelResend = "Resend";
+  static const String labelResendIn = "In";
 
   ///Hint Msg
   static const String hintEnterMobileNo = "Enter Mobile Number";

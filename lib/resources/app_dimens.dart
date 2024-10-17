@@ -13,6 +13,7 @@ class AppDimens {
   static const double size_24 = 24;
   static const double size_32 = 32;
   static const double size_36 = 36;
+  static const double size_42 = 42;
   static const double size_48 = 48;
   static const double size_52 = 52;
   static const double size_64 = 64;

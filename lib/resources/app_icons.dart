@@ -7,4 +7,5 @@ class AppIcons {
 
   static const String icHfkCompanyLogo = "$assetsImagesPath/ic_hfk_logo.png";
   static const String icLoginTop = "$assetsImagesPath/ic_login_top.png";
+  static const String icPasswordAccess = "$assetsImagesPath/ic_password_access.png";
 }

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
@@ -17,23 +20,49 @@ class VerifyOtpScreen extends StatefulWidget {
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
-  late final TextEditingController inputFullNameController;
-  late final TextEditingController inputMobileController;
+  late final TextEditingController mInputFullNameController;
+  late final TextEditingController mInputMobileController;
+  late final Timer mCountdownTimer;
 
   var selectedUserType = UserType.None;
+  var mResendTimerCount = 45;
 
   @override
   void initState() {
     super.initState();
-    inputFullNameController = TextEditingController();
-    inputMobileController = TextEditingController();
+    mInputFullNameController = TextEditingController();
+    mInputMobileController = TextEditingController();
+    startTimer();
   }
 
   @override
   void dispose() {
     super.dispose();
-    inputFullNameController.dispose();
-    inputMobileController.dispose();
+    mInputFullNameController.dispose();
+    mInputMobileController.dispose();
+    stopTimer();
+  }
+
+  void startTimer() {
+    mCountdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        mResendTimerCount--;
+      });
+
+      if (mResendTimerCount < 1) {
+        mCountdownTimer.cancel();
+      }
+    });
+  }
+
+  void stopTimer() {
+    if (mCountdownTimer.isActive) {
+      mCountdownTimer.cancel();
+    }
+  }
+
+  bool isResendCountdownTimerOff() {
+    return (mResendTimerCount < 1) ? true : false;
   }
 
   @override
@@ -41,21 +70,27 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return Scaffold(
       primary: true,
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildVerificationLabel(),
-            _buildNotReceivedCodeLabel(),
-            _buildItemSpacingVertical(AppDimens.size_48),
-            _buildOTPItemRow(),
-            _buildItemSpacingVertical(AppDimens.size_48),
-            _buildVerifyButton(),
-            _buildItemSpacingVertical(AppDimens.size_24),
-            _buildNotReceivedOtpLabel(),
-            _buildResendLabel(),
-          ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildItemSpacingVertical(AppDimens.size_64),
+              _buildPasswordAccessLogoHeader(),
+              _buildItemSpacingVertical(AppDimens.size_16),
+              _buildVerificationLabel(),
+              _buildNotReceivedCodeLabel(),
+              _buildItemSpacingVertical(AppDimens.size_48),
+              _buildOTPItemField(),
+              _buildItemSpacingVertical(AppDimens.size_48),
+              _buildVerifyButton(),
+              _buildItemSpacingVertical(AppDimens.size_32),
+              _buildNotReceivedOtpLabel(),
+              _buildResendItemRow(),
+            ],
+          ),
         ),
       ),
     );
@@ -74,10 +109,20 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
+  Widget _buildPasswordAccessLogoHeader() {
+    return SizedBox(
+      width: AppDimens.size_120,
+      height: AppDimens.size_120,
+      child: Image.asset(AppIcons.icPasswordAccess),
+    );
+  }
+
   Widget _buildVerificationLabel() {
     return const Padding(
-      padding:
-          EdgeInsets.only(left: AppDimens.size_16, right: AppDimens.size_16),
+      padding: EdgeInsets.only(
+        left: AppDimens.size_16,
+        right: AppDimens.size_16,
+      ),
       child: Text(
         AppStrings.labelVerification,
         style: ThemeText.font29Bold,
@@ -89,7 +134,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget _buildNotReceivedCodeLabel() {
     return Padding(
       padding: const EdgeInsets.only(
-          left: AppDimens.size_16, right: AppDimens.size_16),
+        left: AppDimens.size_16,
+        right: AppDimens.size_16,
+      ),
       child: Text(
         AppStrings.labelEnterOtpCode,
         style: ThemeText.font13Light.apply(color: AppColors.payneGrey),
@@ -98,59 +145,29 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
-  Widget _buildOTPItemRow() {
+  Widget _buildOTPItemField() {
     return Padding(
       padding: const EdgeInsets.only(
-          left: AppDimens.size_16, right: AppDimens.size_16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildOTPItemField(first: true, last: false),
-          _buildItemSpacingHorizontal(AppDimens.size_12),
-          _buildOTPItemField(first: false, last: false),
-          _buildItemSpacingHorizontal(AppDimens.size_12),
-          _buildOTPItemField(first: false, last: false),
-          _buildItemSpacingHorizontal(AppDimens.size_12),
-          _buildOTPItemField(first: false, last: true),
-        ],
+        left: AppDimens.size_24,
+        right: AppDimens.size_24,
       ),
-    );
-  }
-
-  Widget _buildOTPItemField({bool first = false, last = false}) {
-    return SizedBox(
-      height: AppDimens.size_48,
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: TextField(
-          autofocus: true,
-          onChanged: (value) {
-            if (value.length == 1 && last == false) {
-              FocusScope.of(context).nextFocus();
-            }
-            if (value.isEmpty && first == false) {
-              FocusScope.of(context).previousFocus();
-            }
+      child: OtpTextField(
+          numberOfFields: 4,
+          fieldWidth: AppDimens.size_48,
+          fieldHeight: AppDimens.size_52,
+          margin: const EdgeInsets.only(right: AppDimens.size_16),
+          borderColor: AppColors.darkSilver,
+          focusedBorderColor: AppColors.americanGreen,
+          showFieldAsBox: true,
+          borderWidth: 4.0,
+          //runs when a code is typed in
+          onCodeChanged: (String code) {
+            //handle validation or checks here if necessary
           },
-          showCursor: false,
-          readOnly: false,
-          textAlign: TextAlign.center,
-          style: ThemeText.font15Medium,
-          keyboardType: TextInputType.number,
-          maxLength: 1,
-          decoration: InputDecoration(
-            counter: const Offstage(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    width: AppDimens.size_2, color: Colors.black12),
-                borderRadius: BorderRadius.circular(AppDimens.size_12)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    width: AppDimens.size_2, color: AppColors.americanGreen),
-                borderRadius: BorderRadius.circular(AppDimens.size_12)),
-          ),
-        ),
-      ),
+          //runs when every textfield is filled
+          onSubmit: (String verificationCode) {
+            print("Verification Code: $verificationCode");
+          }),
     );
   }
 
@@ -176,7 +193,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget _buildNotReceivedOtpLabel() {
     return Padding(
       padding: const EdgeInsets.only(
-          left: AppDimens.size_16, right: AppDimens.size_16),
+        left: AppDimens.size_16,
+        right: AppDimens.size_16,
+      ),
       child: Text(
         AppStrings.labelNotReceiveCodeLabel,
         style: ThemeText.font13Light.apply(color: AppColors.payneGrey),
@@ -185,16 +204,42 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
-  Widget _buildResendLabel() {
+  Widget _buildResendItemRow() {
     return Padding(
       padding: const EdgeInsets.only(
-          left: AppDimens.size_16, right: AppDimens.size_16),
+        left: AppDimens.size_16,
+        right: AppDimens.size_16,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildResendLabel(),
+          _buildResendTimerLabel(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResendLabel() {
+    return TextButton(
+      onPressed:
+          isResendCountdownTimerOff() ? () => resendClickHandler() : null,
       child: Text(
         AppStrings.labelResend,
         style: ThemeText.font17SemiBold.apply(color: AppColors.americanGreen),
         textAlign: TextAlign.center,
       ),
     );
+  }
+
+  Widget _buildResendTimerLabel() {
+    return isResendCountdownTimerOff()
+        ? _buildItemSpacingHorizontal(AppDimens.size_0)
+        : Text(
+            "${AppStrings.labelResendIn} ${mResendTimerCount.toString().padLeft(2, "0")} Seconds",
+            style: ThemeText.font15Regular,
+          );
   }
 
   ///Navigation Handler
@@ -205,5 +250,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   ///Click Handler
   void registerClickHandler() {
     CommonUtils.hideSoftKeyboard();
+  }
+
+  void resendClickHandler() {
+    CommonUtils.hideSoftKeyboard();
+    mResendTimerCount = 45;
+    startTimer();
   }
 }
