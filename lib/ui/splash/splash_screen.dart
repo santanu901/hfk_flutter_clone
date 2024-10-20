@@ -74,12 +74,12 @@ class _SplashScreenState extends State<SplashScreen> {
   ///UI Functionality
   void initSplashTimer() {
     Timer(const Duration(milliseconds: AppConstants.milliSeconds3000), () {
-      navigateToDashboard();
+      navigateToLogin();
     });
   }
 
   ///Navigation Handler
-  void navigateToDashboard() {
+  void navigateToLogin() {
     Navigator.of(context).pushReplacementNamed(AppRoutes.login);
   }
 }

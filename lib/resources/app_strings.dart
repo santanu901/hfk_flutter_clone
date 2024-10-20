@@ -31,6 +31,12 @@ class AppStrings {
   static const String labelResend = "Resend";
   static const String labelResendIn = "In";
 
+  ///Dashboard Screen Msg
+  static const String labelBottomNavHome = "Home";
+  static const String labelBottomNavMyProductList = "My Product";
+  static const String labelBottomNavSellCrop = "Sell Crop";
+  static const String labelBottomNavMarketValue = "Market Value";
+
   ///Hint Msg
   static const String hintEnterMobileNo = "Enter Mobile Number";
   static const String hintEnterFullName = "Enter Full Name";

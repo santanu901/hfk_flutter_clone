@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
@@ -179,7 +180,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       ),
       child: ElevatedButton(
         onPressed: () {
-          registerClickHandler();
+          verifyClickHandler();
         },
         style: ThemeButton.buttonStyleElevatedSolidRoundedCurveAmericanGreen,
         child: Text(
@@ -243,13 +244,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   ///Navigation Handler
-  void navigateToBackStack() {
-    Navigator.of(context).pop();
+  void navigateToDashboard() {
+    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.dashboard, (r) => false);
   }
 
   ///Click Handler
-  void registerClickHandler() {
+  void verifyClickHandler() {
     CommonUtils.hideSoftKeyboard();
+    navigateToDashboard();
   }
 
   void resendClickHandler() {

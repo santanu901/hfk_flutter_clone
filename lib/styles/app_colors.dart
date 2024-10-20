@@ -6,10 +6,11 @@ class AppColors {
 
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color whiteSmoke = Color(0xFFF5F5F5);
   static const Color yankeesBlue = Color(0xFF1A2947);
   static const Color lightSilver = Color(0xFFD8D8D8);
   static const Color darkSilver = Color(0xFF707070);
-  static const Color gainsboro = Color(0xFFD9D9D9);
+  static const Color gainsBoro = Color(0xFFD9D9D9);
   static const Color onyx = Color(0xFF373737);
   static const Color aliceBlue = Color(0xFFF7FAFF);
 
