@@ -3,6 +3,7 @@ class AppStrings {
   AppStrings._();
 
   static const String appFullName = "Help For Kisan";
+  static const String shareHFKAppUrl = "https://play.google.com/store/apps/details?id=com.esoftwere.hfk&hl=en";
 
   ///Splash Screen Msg
   static const String splashWelcomeMsg = "Welcome To";
@@ -36,6 +37,18 @@ class AppStrings {
   static const String labelBottomNavMyProductList = "My Product";
   static const String labelBottomNavSellCrop = "Sell Crop";
   static const String labelBottomNavMarketValue = "Market Value";
+  static const String labelNavDrawerMyProfile = "My Profile";
+  static const String labelNavDrawerMyOrder = "My Order";
+  static const String labelNavDrawerMyTask = "My Task";
+  static const String labelNavDrawerMyNotification = "My Notification";
+  static const String labelNavDrawerMyProduct = "My Product";
+  static const String labelNavDrawerMyWishList = "My WishList";
+  static const String labelNavDrawerMarketValue = "Market Value";
+  static const String labelNavDrawerCompanyDetails = "Company Details";
+  static const String labelNavDrawerTermsCondition = "Terms & Condition";
+  static const String labelNavDrawerPrivacyPolicy = "Privacy Policy";
+  static const String labelNavDrawerShareHfk = "Share HFK";
+  static const String labelNavDrawerAccountLogout = "Logout";
 
   ///Hint Msg
   static const String hintEnterMobileNo = "Enter Mobile Number";

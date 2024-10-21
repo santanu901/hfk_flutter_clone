@@ -46,7 +46,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(AppDimens.size_8)),
         ),
         filled: true,
-        fillColor: AppColors.gray95,
+        fillColor: AppColors.gray82,
       ),
       style: ThemeText.font17Regular.apply(color: AppColors.onyx),
       keyboardType: textInputType,
