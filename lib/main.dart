@@ -8,6 +8,7 @@ import 'package:hfk_flutter_clone/ui/login/login_screen.dart';
 import 'package:hfk_flutter_clone/ui/register/register_screen.dart';
 import 'package:hfk_flutter_clone/ui/splash/splash_screen.dart';
 import 'package:hfk_flutter_clone/ui/verify_otp/verify_otp_screen.dart';
+import 'package:hfk_flutter_clone/ui/web_view/web_view_screen.dart';
 
 void main() {
   runApp(const HFKApp());

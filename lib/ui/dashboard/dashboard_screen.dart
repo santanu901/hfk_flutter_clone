@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hfk_flutter_clone/core/app_routes.dart';
+import 'package:hfk_flutter_clone/core/app_urls.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
 import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
 import 'package:hfk_flutter_clone/ui/home/home_screen.dart';
+import 'package:hfk_flutter_clone/ui/web_view/web_view_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -158,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.person),
       title: const Text(AppStrings.labelNavDrawerMyProfile),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -168,7 +171,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.shopping_basket),
       title: const Text(AppStrings.labelNavDrawerMyOrder),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -178,7 +181,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.task),
       title: const Text(AppStrings.labelNavDrawerMyTask),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -188,7 +191,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.notifications_none),
       title: const Text(AppStrings.labelNavDrawerMyNotification),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -198,7 +201,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.list),
       title: const Text(AppStrings.labelNavDrawerMyProduct),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -208,7 +211,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.heart_broken_rounded),
       title: const Text(AppStrings.labelNavDrawerMyWishList),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -218,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.auto_graph),
       title: const Text(AppStrings.labelNavDrawerMarketValue),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -228,7 +231,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.factory_outlined),
       title: const Text(AppStrings.labelNavDrawerCompanyDetails),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
       },
     );
   }
@@ -238,7 +241,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.chat_bubble_outline),
       title: const Text(AppStrings.labelNavDrawerTermsCondition),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
+        navigateToWebView(AppStrings.appbarTitleTermsCondition, AppUrls.urlTermsConditions);
       },
     );
   }
@@ -248,7 +252,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.privacy_tip_outlined),
       title: const Text(AppStrings.labelNavDrawerPrivacyPolicy),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
+        navigateToWebView(AppStrings.appbarTitlePrivacyPolicy, AppUrls.urlPrivacyPolicy);
       },
     );
   }
@@ -258,7 +263,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.share),
       title: const Text(AppStrings.labelNavDrawerShareHfk),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
         shareHFKAPP();
       },
     );
@@ -269,10 +274,71 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: const Icon(Icons.logout_outlined),
       title: const Text(AppStrings.labelNavDrawerAccountLogout),
       onTap: () {
-        Navigator.pop(context);
+        navigateToBack();
+        _showLogoutDialog(context);
       },
     );
   }
 
-  ///Redirection Handler
+  ///Show Dialog
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              AppStrings.labelDialogLogoutTitle,
+              style: ThemeText.font19SemiBold,
+            ),
+            content: const Text(
+              AppStrings.labelDialogLogoutContent,
+              style: ThemeText.font15Regular,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  navigateToBack();
+                },
+                child: const Text(
+                  AppStrings.labelDialogCancel,
+                  style: ThemeText.font13SemiBold,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  navigateToBack();
+                  navigateToLogin();
+                },
+                child: const Text(
+                  AppStrings.labelDialogConfirm,
+                  style: ThemeText.font13SemiBold,
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  ///Navigation Handler
+  void navigateToBack() {
+    Navigator.of(context).pop();
+  }
+
+  void navigateToWebView(String appbarTitle, String webUrl) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => WebViewScreen(
+          intentKeyAppBarTitle: appbarTitle,
+          intentKeyWebUrl: webUrl,
+        ),
+      ),
+    );
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(AppRoutes.login, (r) => false);
+  }
+
+  ///Click Handler
 }

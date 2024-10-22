@@ -65,6 +65,10 @@ class ThemeText {
     fontSize: AppDimens.fontSize_15,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle font13SemiBold = TextStyle(
+    fontSize: AppDimens.fontSize_13,
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle font13Regular = TextStyle(
     fontSize: AppDimens.fontSize_13,
     fontWeight: FontWeight.w400,

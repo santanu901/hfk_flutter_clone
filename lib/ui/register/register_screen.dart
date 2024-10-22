@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: AppDimens.size_8),
       child: IconButton(
         onPressed: () {
-          navigateToBackStack();
+          navigateToBack();
         },
         icon: const Icon(
           Icons.arrow_back,
@@ -212,7 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   ///Navigation Handler
-  void navigateToBackStack() {
+  void navigateToBack() {
     Navigator.of(context).pop();
   }
 

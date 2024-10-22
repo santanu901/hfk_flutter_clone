@@ -5,6 +5,16 @@ class AppStrings {
   static const String appFullName = "Help For Kisan";
   static const String shareHFKAppUrl = "https://play.google.com/store/apps/details?id=com.esoftwere.hfk&hl=en";
 
+  ///Appbar Title Msg
+  static const String appbarTitlePrivacyPolicy = "Privacy Policy";
+  static const String appbarTitleTermsCondition = "Terms & Condition";
+
+  ///Dialog Msg
+  static const String labelDialogConfirm = "Confirm";
+  static const String labelDialogCancel = "Cancel";
+  static const String labelDialogLogoutTitle = "Logout";
+  static const String labelDialogLogoutContent = "Are you sure want to logout?";
+
   ///Splash Screen Msg
   static const String splashWelcomeMsg = "Welcome To";
 
