@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/ui/dashboard/dashboard_screen.dart';
@@ -24,7 +25,7 @@ class HFKApp extends StatelessWidget {
       statusBarColor: AppColors.forestGreen, // Status bar color
     ));
 
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'HFK',
       theme: ThemeData(
