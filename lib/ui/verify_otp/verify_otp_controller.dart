@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 
 class VerifyOtpController extends GetxController {
-  RxInt mResendTimerCount = 5.obs;
+  RxInt mResendTimerCount = 45.obs;
 
   void decrementResendTimerCount() {
-    mResendTimerCount.value--;
+    if(mResendTimerCount > 0) {
+      mResendTimerCount.value--;
+    }
   }
 
   void resetResendTimerCount() {
-    mResendTimerCount = 5.obs;
+    mResendTimerCount.value = 45;
   }
 }
