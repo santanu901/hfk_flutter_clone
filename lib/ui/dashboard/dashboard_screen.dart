@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:hfk_flutter_clone/core/app_constants.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/core/app_urls.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
@@ -325,19 +327,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void navigateToWebView(String appbarTitle, String webUrl) {
-    Navigator.of(context).push(
+    Get.toNamed(AppRoutes.webView, parameters: {
+      AppConstants.intentKeyAppBarTitle: appbarTitle,
+      AppConstants.intentKeyWebURL: webUrl,
+    });
+    /*Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => WebViewScreen(
           intentKeyAppBarTitle: appbarTitle,
           intentKeyWebUrl: webUrl,
         ),
       ),
-    );
+    );*/
   }
 
   void navigateToLogin() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(AppRoutes.login, (r) => false);
+    Get.offNamedUntil(AppRoutes.login, (r) => false);
   }
 
   ///Click Handler

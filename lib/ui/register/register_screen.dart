@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
-import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_button.dart';
@@ -213,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   ///Navigation Handler
   void navigateToBack() {
-    Navigator.of(context).pop();
+    Get.back();
   }
 
   ///Click Handler

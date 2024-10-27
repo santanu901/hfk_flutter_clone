@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hfk_flutter_clone/core/app_constants.dart';
 import 'package:hfk_flutter_clone/core/app_urls.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
-  final String intentKeyAppBarTitle;
-  final String intentKeyWebUrl;
-
   const WebViewScreen({
     super.key,
-    required this.intentKeyAppBarTitle,
-    required this.intentKeyWebUrl,
   });
 
   @override
@@ -26,6 +23,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
   void initState() {
     super.initState();
     initWebViewController();
+  }
+
+  String getIntentKeyAppBarTitle() {
+    return Get.parameters[AppConstants.intentKeyAppBarTitle] ?? "";
+  }
+
+  String getIntentKeyWebUrl() {
+    return Get.parameters[AppConstants.intentKeyWebURL] ?? "";
   }
 
   void initWebViewController() {
@@ -48,7 +53,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         },
       ))
       ..loadRequest(
-        Uri.parse(widget.intentKeyWebUrl),
+        Uri.parse(getIntentKeyWebUrl()),
       );
   }
 
@@ -68,7 +73,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       title: Text(
-        widget.intentKeyAppBarTitle,
+        getIntentKeyAppBarTitle(),
         style: ThemeText.font15Medium.apply(
           color: AppColors.white,
         ),

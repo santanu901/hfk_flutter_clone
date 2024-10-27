@@ -34,14 +34,15 @@ class HFKApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       initialRoute: AppRoutes.splash,
-      routes: {
-        AppRoutes.splash: (context) => const SplashScreen(),
-        AppRoutes.login: (context) => const LoginScreen(),
-        AppRoutes.register: (context) => const RegisterScreen(),
-        AppRoutes.verifyOtp: (context) => const VerifyOtpScreen(),
-        AppRoutes.dashboard: (context) => const DashboardScreen(),
-        AppRoutes.home: (context) => const HomeScreen(),
-      },
+      getPages: [
+        GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
+        GetPage(name: AppRoutes.login, page: () => const LoginScreen()),
+        GetPage(name: AppRoutes.register, page: () => const RegisterScreen()),
+        GetPage(name: AppRoutes.verifyOtp, page: () => const VerifyOtpScreen()),
+        GetPage(name: AppRoutes.dashboard, page: () => const DashboardScreen()),
+        GetPage(name: AppRoutes.home, page: () => const HomeScreen()),
+        GetPage(name: AppRoutes.webView, page: () => const WebViewScreen()),
+      ],
     );
   }
 }

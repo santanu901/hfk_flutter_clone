@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
@@ -11,6 +12,7 @@ import 'package:hfk_flutter_clone/resources/app_strings.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_button.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
+import 'package:hfk_flutter_clone/ui/verify_otp/verify_otp_controller.dart';
 import 'package:hfk_flutter_clone/utils/common_utils.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
@@ -21,16 +23,19 @@ class VerifyOtpScreen extends StatefulWidget {
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
+  late final VerifyOtpController mVerifyOtpController;
   late final TextEditingController mInputFullNameController;
   late final TextEditingController mInputMobileController;
   late final Timer mCountdownTimer;
 
+  final LOG_TAG = "VerifyOtpScreen";
+
   var selectedUserType = UserType.None;
-  var mResendTimerCount = 45;
 
   @override
   void initState() {
     super.initState();
+    mVerifyOtpController = Get.put(VerifyOtpController());
     mInputFullNameController = TextEditingController();
     mInputMobileController = TextEditingController();
     startTimer();
@@ -46,11 +51,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   void startTimer() {
     mCountdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        mResendTimerCount--;
-      });
+      mVerifyOtpController.decrementResendTimerCount();
 
-      if (mResendTimerCount < 1) {
+      if (mVerifyOtpController.mResendTimerCount < 1) {
         mCountdownTimer.cancel();
       }
     });
@@ -63,11 +66,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   bool isResendCountdownTimerOff() {
-    return (mResendTimerCount < 1) ? true : false;
+    print("$LOG_TAG, isResendCountdownTimerOff");
+    print("$LOG_TAG, ${mVerifyOtpController.mResendTimerCount}");
+    return (mVerifyOtpController.mResendTimerCount < 1) ? true : false;
   }
 
   @override
   Widget build(BuildContext context) {
+    print("$LOG_TAG, Build OTP Widget");
     return Scaffold(
       primary: true,
       resizeToAvoidBottomInset: true,
@@ -167,7 +173,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           },
           //runs when every textfield is filled
           onSubmit: (String verificationCode) {
-            print("Verification Code: $verificationCode");
+            print("$LOG_TAG, Verification Code: $verificationCode");
           }),
     );
   }
@@ -224,8 +230,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   Widget _buildResendLabel() {
     return TextButton(
-      onPressed:
-          isResendCountdownTimerOff() ? () => resendClickHandler() : null,
+      onPressed: () {
+        print("$LOG_TAG, mResendTimerCount: ${mVerifyOtpController.mResendTimerCount}");
+        isResendCountdownTimerOff() ? resendClickHandler() : null;
+      },
       child: Text(
         AppStrings.labelResend,
         style: ThemeText.font17SemiBold.apply(color: AppColors.americanGreen),
@@ -235,17 +243,17 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   Widget _buildResendTimerLabel() {
-    return isResendCountdownTimerOff()
+    return Obx(() => isResendCountdownTimerOff()
         ? _buildItemSpacingHorizontal(AppDimens.size_0)
         : Text(
-            "${AppStrings.labelResendIn} ${mResendTimerCount.toString().padLeft(2, "0")} Seconds",
+            "${AppStrings.labelResendIn} ${mVerifyOtpController.mResendTimerCount.toString().padLeft(2, "0")} Seconds",
             style: ThemeText.font15Regular,
-          );
+          ));
   }
 
   ///Navigation Handler
   void navigateToDashboard() {
-    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.dashboard, (r) => false);
+    Get.offNamedUntil(AppRoutes.dashboard, (r) => false);
   }
 
   ///Click Handler
@@ -256,7 +264,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   void resendClickHandler() {
     CommonUtils.hideSoftKeyboard();
-    mResendTimerCount = 45;
+    mVerifyOtpController.resetResendTimerCount();
+
+    print("$LOG_TAG, mResendTimerCount111111111: ${mVerifyOtpController.mResendTimerCount}");
     startTimer();
   }
 }

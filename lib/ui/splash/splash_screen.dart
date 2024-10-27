@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_constants.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
@@ -80,6 +81,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   ///Navigation Handler
   void navigateToLogin() {
-    Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+    Get.toNamed(AppRoutes.login);
   }
 }

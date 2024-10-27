@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
@@ -82,12 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginHeader() {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     return SizedBox(
       width: double.infinity,
-      height: screenHeight * 0.35,
+      height: Get.height * 0.35,
       child: Stack(
         children: [
           _buildLoginHeaderStackBg(),
@@ -313,11 +311,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   ///Navigation Handler
   void navigateToRegister() {
-    Navigator.of(context).pushNamed(AppRoutes.register);
+    Get.toNamed(AppRoutes.register);
   }
 
   void navigateToVerifyOTP() {
-    Navigator.of(context).pushNamed(AppRoutes.verifyOtp);
+    Get.toNamed(AppRoutes.verifyOtp);
   }
 
   ///Click Handler
