@@ -8,6 +8,7 @@ class AppIcons {
   static const String icHfkCompanyLogo = "$assetsImagesPath/ic_hfk_logo.png";
   static const String icLoginTop = "$assetsImagesPath/ic_login_top.png";
   static const String icPasswordAccess = "$assetsImagesPath/ic_password_access.png";
+  static const String icPlaceholder = "$assetsImagesPath/ic_placeholder.jpeg";
 
   static const String icBottomNavHome = "$assetsSVGPath/ic_home_smile.svg";
   static const String icBottomNavSellCrop = "$assetsSVGPath/ic_sell_crop.svg";

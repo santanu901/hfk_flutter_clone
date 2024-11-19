@@ -331,14 +331,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       AppConstants.intentKeyAppBarTitle: appbarTitle,
       AppConstants.intentKeyWebURL: webUrl,
     });
-    /*Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => WebViewScreen(
-          intentKeyAppBarTitle: appbarTitle,
-          intentKeyWebUrl: webUrl,
-        ),
-      ),
-    );*/
   }
 
   void navigateToLogin() {

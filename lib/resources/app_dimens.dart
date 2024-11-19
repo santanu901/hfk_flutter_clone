@@ -21,6 +21,8 @@ class AppDimens {
   static const double size_84 = 84;
   static const double size_96 = 96;
   static const double size_120 = 120;
+  static const double size_180 = 180;
+  static const double size_200 = 200;
   static const double size_240 = 240;
 
   ///Font Size Constants
