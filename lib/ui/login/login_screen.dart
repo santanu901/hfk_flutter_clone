@@ -6,11 +6,14 @@ import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
 import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
+import 'package:hfk_flutter_clone/services/services_locator.dart';
+import 'package:hfk_flutter_clone/services/shared_prefs_service.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_button.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
 import 'package:hfk_flutter_clone/utils/alert_utils.dart';
 import 'package:hfk_flutter_clone/utils/common_utils.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +24,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController inputMobileController;
+
+  final sharedPrefService = serviceLocator<SharedPrefsService>();
 
   var selectedLoginType = UserType.None;
   var inputMobile = "";

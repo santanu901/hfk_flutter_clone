@@ -7,6 +7,8 @@ import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
 import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
+import 'package:hfk_flutter_clone/services/services_locator.dart';
+import 'package:hfk_flutter_clone/services/shared_prefs_service.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
 
@@ -18,10 +20,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final sharedPrefService = serviceLocator<SharedPrefsService>();
+
   @override
   void initState() {
     super.initState();
     initSplashTimer();
+  }
+
+  void checkSplashRedirectionHandler() {
+    if (sharedPrefService.isUserLoggedIn) {
+      navigateToDashboard();
+    } else {
+      navigateToLogin();
+    }
   }
 
   @override
@@ -75,12 +87,16 @@ class _SplashScreenState extends State<SplashScreen> {
   ///UI Functionality
   void initSplashTimer() {
     Timer(const Duration(milliseconds: AppConstants.milliSeconds3000), () {
-      navigateToLogin();
+      checkSplashRedirectionHandler();
     });
   }
 
   ///Navigation Handler
   void navigateToLogin() {
-    Get.toNamed(AppRoutes.login);
+    Get.offNamedUntil(AppRoutes.login, (r) => false);
+  }
+
+  void navigateToDashboard() {
+    Get.offNamedUntil(AppRoutes.dashboard, (r) => false);
   }
 }

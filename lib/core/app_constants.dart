@@ -7,6 +7,9 @@ class AppConstants {
   static const milliSeconds3000 = 3000;
   static const milliSeconds5000 = 5000;
 
+  ///Preference Key
+  static const prefsKeyIsUserLoggedIn = "prefsKeyIsUserLoggedIn";
+
   ///Intent Key
   static const  intentKeyAppBarTitle = "intentKeyAppBarTitle";
   static const  intentKeyWebURL = "intentKeyWebURL";

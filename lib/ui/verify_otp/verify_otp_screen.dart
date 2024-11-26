@@ -9,6 +9,8 @@ import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
 import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
+import 'package:hfk_flutter_clone/services/services_locator.dart';
+import 'package:hfk_flutter_clone/services/shared_prefs_service.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_button.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
@@ -29,6 +31,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   late final Timer mCountdownTimer;
 
   final LOG_TAG = "VerifyOtpScreen";
+  final sharedPrefService = serviceLocator<SharedPrefsService>();
 
   var selectedUserType = UserType.None;
 
@@ -259,6 +262,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   ///Click Handler
   void verifyClickHandler() {
     CommonUtils.hideSoftKeyboard();
+
+    sharedPrefService.isUserLoggedIn = true;
     navigateToDashboard();
   }
 
@@ -266,7 +271,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     CommonUtils.hideSoftKeyboard();
     mVerifyOtpController.resetResendTimerCount();
 
-    print("$LOG_TAG, mResendTimerCount111111111: ${mVerifyOtpController.mResendTimerCount}");
+    print("$LOG_TAG, mResendTimerCount: ${mVerifyOtpController.mResendTimerCount}");
     startTimer();
   }
 }

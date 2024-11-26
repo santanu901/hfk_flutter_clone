@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
+import 'package:hfk_flutter_clone/services/services_locator.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/ui/dashboard/dashboard_screen.dart';
 import 'package:hfk_flutter_clone/ui/home/home_screen.dart';
@@ -11,7 +12,10 @@ import 'package:hfk_flutter_clone/ui/splash/splash_screen.dart';
 import 'package:hfk_flutter_clone/ui/verify_otp/verify_otp_screen.dart';
 import 'package:hfk_flutter_clone/ui/web_view/web_view_screen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupServiceLocator();
+
   runApp(const HFKApp());
 }
 
