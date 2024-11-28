@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:hfk_flutter_clone/core/app_routes.dart';
 import 'package:hfk_flutter_clone/custom_views/custom_text_field.dart';
 import 'package:hfk_flutter_clone/enums/enum_login_type.dart';
+import 'package:hfk_flutter_clone/model/login/login_request_model.dart';
+import 'package:hfk_flutter_clone/networking/api_response.dart';
+import 'package:hfk_flutter_clone/networking/api_response_status.dart';
 import 'package:hfk_flutter_clone/resources/app_dimens.dart';
 import 'package:hfk_flutter_clone/resources/app_icons.dart';
 import 'package:hfk_flutter_clone/resources/app_strings.dart';
@@ -11,9 +14,10 @@ import 'package:hfk_flutter_clone/services/shared_prefs_service.dart';
 import 'package:hfk_flutter_clone/styles/app_colors.dart';
 import 'package:hfk_flutter_clone/styles/theme_button.dart';
 import 'package:hfk_flutter_clone/styles/theme_text.dart';
+import 'package:hfk_flutter_clone/ui/login/login_viewmodel.dart';
 import 'package:hfk_flutter_clone/utils/alert_utils.dart';
 import 'package:hfk_flutter_clone/utils/common_utils.dart';
-
+import 'package:hfk_flutter_clone/utils/validation_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController inputMobileController;
 
   final sharedPrefService = serviceLocator<SharedPrefsService>();
+  final LoginViewModel loginViewModel = Get.put(LoginViewModel());
 
   var selectedLoginType = UserType.None;
   var inputMobile = "";
@@ -47,30 +52,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       primary: true,
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLoginHeader(),
-              _buildItemSpacingVertical(AppDimens.size_32),
-              _buildLoginTypeLabel(),
-              _buildItemSpacingVertical(AppDimens.size_2),
-              _buildLoginTypeRadio(),
-              _buildItemSpacingVertical(AppDimens.size_12),
-              _buildMobileNoField(),
-              _buildItemSpacingVertical(AppDimens.size_48),
-              _buildLoginInButton(),
-              _buildItemSpacingVertical(AppDimens.size_32),
-              _buildNoAccountLabel(),
-              _buildItemSpacingVertical(AppDimens.size_16),
-              _buildCreateAccount(),
-            ],
-          ),
-        ),
-      ),
+      body: Obx(() {
+        if (loginViewModel.loginResponseObserver.value.status == APIResponseStatus.LOADING) {
+          return _buildCircularLoader();
+        } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.ERROR) {
+          AlertUtils.showErrorSnackBar(context, loginViewModel.loginResponseObserver.value.message ?? "");
+          return _buildLoginForm();
+        } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.COMPLETED) {
+          print(loginViewModel.loginResponseObserver.value.data.toString());
+          AlertUtils.showSuccessSnackBar(context, loginViewModel.loginResponseObserver.value.data?.message ?? "");
+          return _buildLoginForm();
+        } else {
+          return _buildLoginForm();
+        }
+      }),
     );
   }
 
@@ -84,6 +79,39 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildItemSpacingHorizontal(double boxWidth) {
     return SizedBox(
       width: boxWidth,
+    );
+  }
+
+  Widget _buildCircularLoader() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildLoginHeader(),
+            _buildItemSpacingVertical(AppDimens.size_32),
+            _buildLoginTypeLabel(),
+            _buildItemSpacingVertical(AppDimens.size_2),
+            _buildLoginTypeRadio(),
+            _buildItemSpacingVertical(AppDimens.size_12),
+            _buildMobileNoField(),
+            _buildItemSpacingVertical(AppDimens.size_48),
+            _buildLoginInButton(),
+            _buildItemSpacingVertical(AppDimens.size_32),
+            _buildNoAccountLabel(),
+            _buildItemSpacingVertical(AppDimens.size_16),
+            _buildCreateAccount(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -327,7 +355,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginClickHandler() {
     CommonUtils.hideSoftKeyboard();
     if (validateLoginData()) {
-      navigateToVerifyOTP();
+      var loginRequest = LoginRequestModel(mobile: "9038968993", userType: "SLR");
+      loginViewModel.callLoginApi(loginRequestModel: loginRequest);
+      //navigateToVerifyOTP();
     }
   }
 

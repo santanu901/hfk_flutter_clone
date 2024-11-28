@@ -7,6 +7,17 @@ class AppConstants {
   static const milliSeconds3000 = 3000;
   static const milliSeconds5000 = 5000;
 
+  ///HTTP STATUS CODE
+  static const HTTP_STATUS_200 = 200;
+  static const HTTP_STATUS_400 = 400;
+  static const HTTP_STATUS_401 = 401;
+  static const HTTP_STATUS_403 = 403;
+  static const HTTP_STATUS_404 = 404;
+  static const HTTP_STATUS_500 = 500;
+  static const HTTP_STATUS_502 = 502;
+  static const HTTP_STATUS_503 = 503;
+  static const HTTP_STATUS_504 = 504;
+
   ///Preference Key
   static const prefsKeyIsUserLoggedIn = "prefsKeyIsUserLoggedIn";
 
