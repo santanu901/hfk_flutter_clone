@@ -18,6 +18,7 @@ import 'package:hfk_flutter_clone/ui/login/login_viewmodel.dart';
 import 'package:hfk_flutter_clone/utils/alert_utils.dart';
 import 'package:hfk_flutter_clone/utils/common_utils.dart';
 import 'package:hfk_flutter_clone/utils/validation_utils.dart';
+import 'package:logger/logger.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final sharedPrefService = serviceLocator<SharedPrefsService>();
   final LoginViewModel loginViewModel = Get.put(LoginViewModel());
+  final mLogger = Logger();
 
   var selectedLoginType = UserType.None;
   var inputMobile = "";
@@ -53,14 +55,25 @@ class _LoginScreenState extends State<LoginScreen> {
       primary: true,
       resizeToAvoidBottomInset: true,
       body: Obx(() {
-        if (loginViewModel.loginResponseObserver.value.status == APIResponseStatus.LOADING) {
+        if (loginViewModel.loginResponseObserver.value.status ==
+            APIResponseStatus.LOADING) {
           return _buildCircularLoader();
-        } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.ERROR) {
-          //AlertUtils.showErrorSnackBar(context, loginViewModel.loginResponseObserver.value.message ?? "");
+        } else if (loginViewModel.loginResponseObserver.value.status ==
+            APIResponseStatus.ERROR) {
+          mLogger.e("Inside On Error");
+          mLogger.e("Error Data: ${loginViewModel.loginResponseObserver.value.message}");
           return _buildLoginForm();
-        } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.COMPLETED) {
-          print(loginViewModel.loginResponseObserver.value.data.toString());
+        } else if (loginViewModel.loginResponseObserver.value.status ==
+            APIResponseStatus.COMPLETED) {
           //AlertUtils.showSuccessSnackBar(context, loginViewModel.loginResponseObserver.value.data?.message ?? "");
+          mLogger.e("Inside On Success");
+          var loginResponseModel = loginViewModel.loginResponseObserver.value.data;
+          if(loginResponseModel != null) {
+            mLogger.e("Success Data: ${loginResponseModel.message}");
+            mLogger.e("Success Data: ${loginResponseModel.success}");
+            mLogger.e("Success Data: ${loginResponseModel.userData?.toJson()}");
+          }
+
           return _buildLoginForm();
         } else {
           return _buildLoginForm();
@@ -355,7 +368,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginClickHandler() {
     CommonUtils.hideSoftKeyboard();
     if (validateLoginData()) {
-      var loginRequest = LoginRequestModel(mobile: "9038968993", userType: "SLR");
+      var loginRequest = LoginRequestModel(
+          mobile: inputMobile, userType: "SLR");
       loginViewModel.callLoginApi(loginRequestModel: loginRequest);
       //navigateToVerifyOTP();
     }

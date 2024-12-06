@@ -15,7 +15,8 @@ class LoginRepository {
 
   Future<ApiResponse<LoginResponseModel>> loginApi(var data) async {
     try {
-      dynamic response = await _apiService.postApi(data, AppUrls.requestTypeLoginAPI);
+      dynamic response =
+          await _apiService.postApi(data, AppUrls.requestTypeLoginAPI);
       return returnResponse(response);
     } on SocketException {
       return ApiResponse.error("No Internet connection");
@@ -33,7 +34,8 @@ class LoginRepository {
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case AppConstants.HTTP_STATUS_200:
-        return ApiResponse.completed(jsonDecode(response.body));
+        return ApiResponse.completed(
+            LoginResponseModel.fromJson(jsonDecode(response.body)));
       case AppConstants.HTTP_STATUS_400:
         return ApiResponse.error("Bad Request: ${response.body}");
       case AppConstants.HTTP_STATUS_401:

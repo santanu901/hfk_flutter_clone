@@ -42,10 +42,7 @@ class NetworkAPIService extends BaseAPIService {
     }
 
     try {
-      logger.e("POST API: ${json.encode(data)}");
       final response = await http.post(Uri.parse(url), body: json.encode(data)).timeout(const Duration(minutes: 3));
-      logger.e(response.statusCode);
-      logger.e(response.body);
       return response;
     } on SocketException {
       throw SocketException;
@@ -59,6 +56,8 @@ class NetworkAPIService extends BaseAPIService {
     } on FormatException {
       throw FormatException;
       //return ApiResponse.error("Bad response format");
+    } on Exception {
+      throw Exception;
     }
   }
 
