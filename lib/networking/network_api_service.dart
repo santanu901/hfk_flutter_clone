@@ -7,8 +7,11 @@ import 'package:hfk_flutter_clone/core/app_constants.dart';
 import 'package:hfk_flutter_clone/networking/api_response.dart';
 import 'package:hfk_flutter_clone/networking/base_api_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 class NetworkAPIService extends BaseAPIService {
+  final logger = Logger();
+
   @override
   Future getApi(String url) async {
     if(kDebugMode) {
@@ -39,22 +42,27 @@ class NetworkAPIService extends BaseAPIService {
     }
 
     try {
-      final response = await http.post(Uri.parse(url), body: data).timeout(const Duration(minutes: 3));
-      return returnResponse(response);
+      logger.e("POST API: ${json.encode(data)}");
+      final response = await http.post(Uri.parse(url), body: json.encode(data)).timeout(const Duration(minutes: 3));
+      logger.e(response.statusCode);
+      logger.e(response.body);
+      return response;
     } on SocketException {
-      return ApiResponse.error("No Internet connection");
+      throw SocketException;
+      //return ApiResponse.error("No Internet connection");
     } on TimeoutException {
-      return ApiResponse.error("Request timed out");
+      throw TimeoutException;
+      //return ApiResponse.error("Request timed out");
     } on HttpException {
-      return ApiResponse.error("Couldn't find the post");
+      throw HttpException;
+      //return ApiResponse.error("Couldn't find the post");
     } on FormatException {
-      return ApiResponse.error("Bad response format");
-    } catch (e) {
-      return ApiResponse.error("Unexpected error: $e");
+      throw FormatException;
+      //return ApiResponse.error("Bad response format");
     }
   }
 
-  ApiResponse<dynamic> returnResponse(http.Response response) {
+  dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case AppConstants.HTTP_STATUS_200:
         return ApiResponse.completed(jsonDecode(response.body));

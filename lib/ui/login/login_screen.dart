@@ -56,11 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
         if (loginViewModel.loginResponseObserver.value.status == APIResponseStatus.LOADING) {
           return _buildCircularLoader();
         } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.ERROR) {
-          AlertUtils.showErrorSnackBar(context, loginViewModel.loginResponseObserver.value.message ?? "");
+          //AlertUtils.showErrorSnackBar(context, loginViewModel.loginResponseObserver.value.message ?? "");
           return _buildLoginForm();
         } else if(loginViewModel.loginResponseObserver.value.status == APIResponseStatus.COMPLETED) {
           print(loginViewModel.loginResponseObserver.value.data.toString());
-          AlertUtils.showSuccessSnackBar(context, loginViewModel.loginResponseObserver.value.data?.message ?? "");
+          //AlertUtils.showSuccessSnackBar(context, loginViewModel.loginResponseObserver.value.data?.message ?? "");
           return _buildLoginForm();
         } else {
           return _buildLoginForm();

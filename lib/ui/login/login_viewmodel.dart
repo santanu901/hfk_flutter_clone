@@ -4,8 +4,10 @@ import 'package:hfk_flutter_clone/model/login/login_response_model.dart';
 import 'package:hfk_flutter_clone/networking/api_response.dart';
 import 'package:hfk_flutter_clone/networking/api_response_status.dart';
 import 'package:hfk_flutter_clone/ui/login/login_repository.dart';
+import 'package:logger/logger.dart';
 
 class LoginViewModel extends GetxController {
+  final logger = Logger();
   final _loginRepository = LoginRepository();
 
   Rx<ApiResponse<LoginResponseModel>> loginResponseObserver =
@@ -15,9 +17,8 @@ class LoginViewModel extends GetxController {
     loginResponseObserver.value = ApiResponse.loading();
 
     Map loginRequestMap = loginRequestModel.toJson();
-    ApiResponse<LoginResponseModel> loginResponse =
+    var loginResponse =
         await _loginRepository.loginApi(loginRequestMap);
-    print(loginRequestMap);
 
     if (loginResponse.status == APIResponseStatus.ERROR) {
       loginResponseObserver.value = ApiResponse.error(loginResponse.message);
